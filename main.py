@@ -13,14 +13,16 @@ images = []
 git_repo_url = 'https://github.com/derejetabzaw/mmdetection_object_detection_demo.git'
 
 project_name = os.path.abspath(splitext(basename(git_repo_url))[0])
+
+if not exists(project_name):
+    clone_from_url(git_repo_url)
 config_file = "configs/pascal_voc/faster_rcnn_r50_fpn_1x_voc0712.py"
 config_fname = os.path.join(project_name, 'mmdetection', config_file)
+print (config_fname)
 assert os.path.isfile(config_fname), '`{}` not exist'.format(config_fname)
 image_dirs = project_name + "/data/VOC2007/JPEGImages/" 
 
 
-if not exists(project_name):
-    clone_from_url(git_repo_url)
 
 mmdetection_dir = os.path.join(project_name, "mmdetection")
 
