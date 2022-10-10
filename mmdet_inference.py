@@ -5,6 +5,8 @@ from mmcv.image.io import imread
 import numpy as np
 from aws_save import upload_to_aws
 from db_save import db_add_images , add_bin_folder
+
+
 class Crop_Tapes:
     def __init__(self, git_repo,project_name,mmdetection_dir,config_file,checkpoint_file,directory_path,db_name):
         self.git_repo = git_repo
@@ -45,7 +47,7 @@ class Crop_Tapes:
                         cropped = cv2.imwrite(root_1 + '/' + os.path.basename(image), cropped_image)
                         print("Add images to DB")
                         db_add_images(os.path.basename(image), self.db_name, bin_id)
-                        # print("Add images to AWS")
+                        print("Add images to AWS")
                         # upload_to_aws(root_1 + '/' + os.path.basename(image),'nthds-records', '1/tapes/' + str(dir) + '/' + os.path.basename(image))
 
 
