@@ -2,9 +2,11 @@ import os
 import time
 import MySQLdb
 
+
 host = os.getenv('Host')
 user = os.getenv('User')
 passwd = os.getenv('Password')
+
 
 def db_info(db_name, retry=15):
     """
@@ -28,6 +30,8 @@ def db_info(db_name, retry=15):
         time.sleep(5)
         return db_info(db_name, retry - 1)
     return db, cur
+
+
 def bin_id_select(db_name,bin_name):
     db, cur = db_info(db_name)
     # bin_query_stmt = "SELECT * FROM bins where `name` = '" + str(bin_name) + "';"
@@ -40,16 +44,13 @@ def bin_id_select(db_name,bin_name):
         print(e)
     return bin
 
+
 def add_bin_folder(db_name,bin_name):
     db, cur = db_info(db_name)
     q_stmt = "INSERT INTO bins (`name`,client_id,project_id,created_at, updated_at) VALUES "
-
     comp_stmt = "('" + str(bin_name) + "', 1,1, NOW(), NOW()), "
-
     q_stmt += comp_stmt
     q_stmt = q_stmt[:-2] + ";"
-    print (q_stmt)
-
     try:
         cur.execute(q_stmt)
         bin_id = cur.lastrowid
@@ -60,29 +61,18 @@ def add_bin_folder(db_name,bin_name):
     return bin_id
 
 
-
-
-
-def db_add_images(path,db_name,bin_name,bin_id):
-    print('at db_add_images')
+def db_add_images(path,db_name,bin_id):
     db, cur = db_info(db_name)
     q_stmt = "INSERT INTO tapes (`name`,`bin_id`,client_id,project_id,`barcode`,created_at, updated_at) VALUES "
-    print ("bin_id:" , bin_id)
     split = os.path.splitext(path)
     comp_stmt = "('" + str(path) + "','" + str(bin_id) + "', 1,1, '" + str(split[0]) + "', NOW(), NOW()), "
-
-    print('db saving image',comp_stmt)
     q_stmt += comp_stmt
-
     q_stmt = q_stmt[:-2] + ";"
-    print (q_stmt)
-    
     try:
         cur.execute(q_stmt)
     except Exception as e:
         print(e)
     finally:
         db.commit()
-
     time.sleep(5)
 
