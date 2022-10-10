@@ -48,7 +48,7 @@ class Crop_Tapes:
                         print("Add images to DB")
                         db_add_images(os.path.basename(image), self.db_name, bin_id)
                         print("Add images to AWS")
-                        # upload_to_aws(root_1 + '/' + os.path.basename(image),'nthds-records', '1/tapes/' + str(dir) + '/' + os.path.basename(image))
+                        upload_to_aws(root_1 + '/' + os.path.basename(image),'nthds-records', '1/tapes/' + str(dir) + '/' + os.path.basename(image))
 
 
 
